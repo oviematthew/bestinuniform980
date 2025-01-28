@@ -83,10 +83,10 @@ export default function Dropdown({ labelText }) {
                 <ComboboxOption
                   key={person.id}
                   value={person}
-                  className={({ active, selected }) =>
+                  className={({ focus, selected }) =>
                     clsx(
                       "cursor-pointer select-none py-2 px-4 text-sm",
-                      active ? "bg-blue-500 text-white" : "text-black",
+                      focus ? "bg-blue-500 text-white" : "text-black",
                       selected && "font-semibold"
                     )
                   }
