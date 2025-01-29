@@ -1,8 +1,5 @@
 #root {
-  /* max-width: 1280px; */
-  /* margin: 0 auto; */
   padding: 2rem;
-
   --var-blue: #0046be;
 }
 
@@ -11,11 +8,6 @@
 .header-text{
   font-weight: bold;
   font-size: 30px;
-  color: var(--var-blue);
   text-align: center;
-  margin-top: 20px;
-}
-
-.nav-div{
-  background-color: #0046be;
+  margin-top: 30px;
 }

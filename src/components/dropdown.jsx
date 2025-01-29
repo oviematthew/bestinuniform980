@@ -20,7 +20,7 @@ const people = [
   { id: 5, name: "Devon Webb" },
 ];
 
-export default function Dropdown({ labelText }) {
+export default function Dropdown({ labelText, placeHolder }) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
@@ -45,7 +45,7 @@ export default function Dropdown({ labelText }) {
         });
 
   return (
-    <div className="mx-auto w-52 pt-4" ref={dropdownRef}>
+    <div className="mx-auto w-60 pt-4" ref={dropdownRef}>
       <Field>
         <Label className="block text-sm font-medium text-gray-700">
           {labelText}
@@ -70,6 +70,7 @@ export default function Dropdown({ labelText }) {
                 setOpen(event.target.value.length > 0); // Open dropdown only when typing
               }}
               displayValue={(person) => person?.name || ""}
+              placeholder={placeHolder}
             />
             <ComboboxButton className="absolute inset-y-0 right-0 px-2.5">
               <ChevronDownIcon className="w-4 h-4 text-gray-600" />
