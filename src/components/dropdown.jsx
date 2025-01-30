@@ -31,6 +31,7 @@ export default function Dropdown({ labelText, placeHolder }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  //Load all Employees from database
   const loadAllEmployees = () => {
     loadEmployees()
       .then((employees) => {
@@ -45,14 +46,7 @@ export default function Dropdown({ labelText, placeHolder }) {
     loadAllEmployees();
   }, []);
 
-  //   const people = [
-  //     { id: 1, name: "Tom Cook" },
-  //     { id: 2, name: "Wade Cooper" },
-  //     { id: 3, name: "Tanya Fox" },
-  //     { id: 4, name: "Arlene Mccoy" },
-  //     { id: 5, name: "Devon Webb" },
-  //   ];
-
+  //Filter employees for query search
   const filteredPeople =
     query === ""
       ? employees
@@ -61,7 +55,7 @@ export default function Dropdown({ labelText, placeHolder }) {
         });
 
   return (
-    <div className="mx-auto w-60 pt-4" ref={dropdownRef}>
+    <div className="w-[70%] pt-4" ref={dropdownRef}>
       <Field>
         <Label className="block text-sm font-medium text-gray-700">
           {labelText}
