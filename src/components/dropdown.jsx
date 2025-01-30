@@ -11,19 +11,13 @@ import {
 } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-
-const people = [
-  { id: 1, name: "Tom Cook" },
-  { id: 2, name: "Wade Cooper" },
-  { id: 3, name: "Tanya Fox" },
-  { id: 4, name: "Arlene Mccoy" },
-  { id: 5, name: "Devon Webb" },
-];
+import { loadEmployees } from "../config/Firebase";
 
 export default function Dropdown({ labelText, placeHolder }) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
+  const [employees, setEmployees] = useState([]);
   const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -37,11 +31,33 @@ export default function Dropdown({ labelText, placeHolder }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const loadAllEmployees = () => {
+    loadEmployees()
+      .then((employees) => {
+        setEmployees(employees);
+      })
+      .catch((error) => {
+        console.error("Error loading employees:", error);
+      });
+  };
+
+  useEffect(() => {
+    loadAllEmployees();
+  }, []);
+
+  //   const people = [
+  //     { id: 1, name: "Tom Cook" },
+  //     { id: 2, name: "Wade Cooper" },
+  //     { id: 3, name: "Tanya Fox" },
+  //     { id: 4, name: "Arlene Mccoy" },
+  //     { id: 5, name: "Devon Webb" },
+  //   ];
+
   const filteredPeople =
     query === ""
-      ? people
-      : people.filter((person) => {
-          return person.name.toLowerCase().includes(query.toLowerCase());
+      ? employees
+      : employees.filter((employee) => {
+          return employee.fullName.toLowerCase().includes(query.toLowerCase());
         });
 
   return (
@@ -69,7 +85,7 @@ export default function Dropdown({ labelText, placeHolder }) {
                 setQuery(event.target.value);
                 setOpen(event.target.value.length > 0); // Open dropdown only when typing
               }}
-              displayValue={(person) => person?.name || ""}
+              displayValue={(employee) => employee?.fullName || ""}
               placeholder={placeHolder}
             />
             <ComboboxButton className="absolute inset-y-0 right-0 px-2.5">
@@ -80,10 +96,10 @@ export default function Dropdown({ labelText, placeHolder }) {
           {/* Dropdown Menu (Only Show if Open) */}
           {open && filteredPeople.length > 0 && (
             <ComboboxOptions className="absolute mt-1 w-contain bg-white border border-gray-300 rounded-md shadow-lg">
-              {filteredPeople.map((person) => (
+              {filteredPeople.map((employee) => (
                 <ComboboxOption
-                  key={person.id}
-                  value={person}
+                  key={employee.id}
+                  value={employee}
                   className={({ focus, selected }) =>
                     clsx(
                       "cursor-pointer select-none py-2 px-4 text-sm",
@@ -95,7 +111,7 @@ export default function Dropdown({ labelText, placeHolder }) {
                   {({ selected }) => (
                     <div className="flex items-center gap-2">
                       {selected && <CheckIcon className="w-4 h-4 text-black" />}
-                      {person.name}
+                      {employee.fullName}
                     </div>
                   )}
                 </ComboboxOption>
