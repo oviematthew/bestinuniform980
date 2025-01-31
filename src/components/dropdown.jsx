@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Combobox,
   ComboboxButton,
@@ -13,9 +12,8 @@ import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { loadEmployees } from "../config/Firebase";
 
-export default function Dropdown({ labelText, placeHolder }) {
+export default function Dropdown({ labelText, placeHolder, setSelected }) {
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
   const [employees, setEmployees] = useState([]);
   const dropdownRef = useRef(null);
@@ -31,28 +29,20 @@ export default function Dropdown({ labelText, placeHolder }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  //Load all Employees from database
-  const loadAllEmployees = () => {
-    loadEmployees()
-      .then((employees) => {
-        setEmployees(employees);
-      })
-      .catch((error) => {
-        console.error("Error loading employees:", error);
-      });
-  };
-
+  // Load Employees from database
   useEffect(() => {
-    loadAllEmployees();
+    loadEmployees()
+      .then((employees) => setEmployees(employees))
+      .catch((error) => console.error("Error loading employees:", error));
   }, []);
 
-  //Filter employees for query search
+  // Filter employees based on query
   const filteredPeople =
     query === ""
       ? employees
-      : employees.filter((employee) => {
-          return employee.fullName.toLowerCase().includes(query.toLowerCase());
-        });
+      : employees.filter((employee) =>
+          employee.fullName.toLowerCase().includes(query.toLowerCase())
+        );
 
   return (
     <div className="w-[70%] pt-4" ref={dropdownRef}>
@@ -60,24 +50,21 @@ export default function Dropdown({ labelText, placeHolder }) {
         <Label className="block text-sm font-medium text-gray-700">
           {labelText}
         </Label>
+
         <Combobox
-          value={selected}
           onChange={(value) => {
-            setSelected(value);
-            setOpen(false); // Close dropdown when an option is selected
-            setQuery(""); // Reset input after selection
+            setSelected(value); // Send selection to App.js
+            setOpen(false);
+            setQuery("");
           }}
         >
           <div className="relative">
             {/* Input Field */}
             <ComboboxInput
-              className={clsx(
-                "w-full rounded-lg border border-gray-300 bg-white py-1.5 pr-8 pl-3 text-sm text-black",
-                "focus:outline-none focus:ring-2 focus:ring-blue-500"
-              )}
+              className="w-full rounded-lg border border-gray-300 bg-white py-1.5 pr-8 pl-3 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               onChange={(event) => {
                 setQuery(event.target.value);
-                setOpen(event.target.value.length > 0); // Open dropdown only when typing
+                setOpen(event.target.value.length > 0);
               }}
               displayValue={(employee) => employee?.fullName || ""}
               placeholder={placeHolder}
@@ -87,9 +74,9 @@ export default function Dropdown({ labelText, placeHolder }) {
             </ComboboxButton>
           </div>
 
-          {/* Dropdown Menu (Only Show if Open) */}
+          {/* Dropdown Menu */}
           {open && filteredPeople.length > 0 && (
-            <ComboboxOptions className="absolute mt-1 w-contain bg-white border border-gray-300 rounded-md shadow-lg">
+            <ComboboxOptions className="absolute z-50 mt-1 w-[30%] bg-white border border-gray-300 rounded-md shadow-lg">
               {filteredPeople.map((employee) => (
                 <ComboboxOption
                   key={employee.id}

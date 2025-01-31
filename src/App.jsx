@@ -1,24 +1,22 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Dropdown from "./components/Dropdown";
 import ButtonItem from "./components/ButtonItem";
 
-// Check if voting is live from database
-// useEffect(() => {
-//   function checkVoting() {}
-// }, []);
-
 function App() {
-  const [votingLive, setVotingLive] = useState(true);
+  const [nominator, setNominator] = useState(null);
+  const [nominated, setNominated] = useState(null);
+
+  const isSelfVoting = nominator && nominated && nominator.id === nominated.id;
 
   return (
     <div>
       <Navbar />
 
       {/* Hero Section */}
-      <div class="flex justify-between lg:ml-10 mt-6">
-        <div class=" w-[100%] lg:w-[50%] place-content-center">
+      <div className="flex justify-between lg:ml-10 mt-6">
+        <div className="w-[100%] lg:w-[50%] place-content-center">
           <div className="flex flex-col">
             <h1 className="text-[#0046be] font-bold mt-10 text-4xl">
               Best In Uniform
@@ -29,21 +27,34 @@ function App() {
           </div>
 
           {/* If Voting Is Live */}
-          {votingLive && (
-            <div className="flex flex-col">
-              <Dropdown labelText={"Nominator"} placeHolder={"Who are you?"} />
-              <Dropdown
-                labelText={"Nominated"}
-                placeHolder={"Who are you voting for?"}
-              />
-              <ButtonItem buttonText={"Vote Now"} />
-            </div>
-          )}
+
+          <div className="flex flex-col">
+            <Dropdown
+              labelText="Nominator"
+              placeHolder="Who are you?"
+              setSelected={setNominator} // Pass setter function
+            />
+            <Dropdown
+              labelText="Nominated"
+              placeHolder="Who are you voting for?"
+              setSelected={setNominated} // Pass setter function
+            />
+            {!isSelfVoting && (
+              <ButtonItem buttonText="Vote Now" disabled={isSelfVoting} />
+            )}
+
+            {isSelfVoting && (
+              <p className="text-red-500 mt-2 text-sm">
+                You cannot vote for yourself!
+              </p>
+            )}
+          </div>
         </div>
-        <div class="lg:w-[50%] hidden lg:block">
+        <div className="lg:w-[50%] hidden lg:block">
           <img
-            class="flex justify-center align-middle"
+            className="flex justify-center align-middle"
             src="src/assets/bgImage.JPG"
+            alt="Background"
           />
         </div>
       </div>
