@@ -47,7 +47,7 @@ export default function Dropdown({ labelText, placeHolder, setSelected }) {
   return (
     <div className="w-[70%] pt-4" ref={dropdownRef}>
       <Field>
-        <Label className="block text-sm font-medium text-gray-700">
+        <Label className="block text-sm mb-1 font-medium text-gray-700">
           {labelText}
         </Label>
 

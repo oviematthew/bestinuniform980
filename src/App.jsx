@@ -3,12 +3,35 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Dropdown from "./components/Dropdown";
 import ButtonItem from "./components/ButtonItem";
+import Checkboxes from "./components/Checkboxes";
 
 function App() {
   const [nominator, setNominator] = useState(null);
   const [nominated, setNominated] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const isSelfVoting = nominator && nominated && nominator.id === nominated.id;
+
+  function handleVoting() {
+    if (!nominator && !nominated) {
+      setErrorMessage("Please select both a Nominator and a Nominee.");
+      return;
+    }
+    if (!nominator) {
+      setErrorMessage("Please select a Nominator.");
+      return;
+    }
+    if (!nominated) {
+      setErrorMessage("Please select a Nominee.");
+      return;
+    }
+
+    // Clear the error if everything is filled
+    setErrorMessage("");
+    alert(
+      `Vote submitted!\nNominator: ${nominator.fullName}\nNominated: ${nominated.fullName}`
+    );
+  }
 
   return (
     <div>
@@ -26,27 +49,39 @@ function App() {
             </p>
           </div>
 
-          {/* If Voting Is Live */}
-
+          {/* Dropdown */}
           <div className="flex flex-col">
             <Dropdown
-              labelText="Nominator"
+              labelText="Nominator *"
               placeHolder="Who are you?"
-              setSelected={setNominator} // Pass setter function
+              setSelected={setNominator}
             />
             <Dropdown
-              labelText="Nominated"
+              labelText="Nominated *"
               placeHolder="Who are you voting for?"
-              setSelected={setNominated} // Pass setter function
+              setSelected={setNominated}
             />
+
+            {/* Values */}
+            <p className="mt-5 mb-2 font-bold ">Best Buy Values</p>
+            <Checkboxes labelText={"Having fun while being the best"} />
+            <Checkboxes labelText={"Unleash the power of our people"} />
+            <Checkboxes labelText={"Learning from challenge and change"} />
+            <Checkboxes labelText={"Showing respect humility and integrity"} />
+
+            {/* Button */}
             {!isSelfVoting && (
-              <ButtonItem buttonText="Vote Now" disabled={isSelfVoting} />
+              <ButtonItem onClick={handleVoting} buttonText="Vote Now" />
             )}
 
+            {/* Error Messages */}
             {isSelfVoting && (
               <p className="text-red-500 mt-2 text-sm">
                 You cannot vote for yourself!
               </p>
+            )}
+            {errorMessage && (
+              <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
             )}
           </div>
         </div>
