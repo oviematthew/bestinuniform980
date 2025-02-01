@@ -61,7 +61,7 @@ export default function Dropdown({ labelText, placeHolder, setSelected }) {
           <div className="relative">
             {/* Input Field */}
             <ComboboxInput
-              className="w-full rounded-lg border border-gray-300 bg-white py-1.5 pr-8 pl-3 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pr-8 pl-3 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               onChange={(event) => {
                 setQuery(event.target.value);
                 setOpen(event.target.value.length > 0);

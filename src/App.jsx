@@ -11,10 +11,11 @@ function App() {
   const [nominated, setNominated] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(null);
 
   const isSelfVoting = nominator && nominated && nominator.id === nominated.id;
 
+  // Form Validation
   function handleVoting() {
     if (!nominator && !nominated) {
       setErrorMessage("Please select both a Nominator and a Nominee.");
@@ -29,7 +30,7 @@ function App() {
       return;
     }
 
-    if (!startDate) {
+    if (!currentDate) {
       setErrorMessage("Please select a date.");
       return;
     }
@@ -38,6 +39,22 @@ function App() {
     setErrorMessage("");
     alert(
       `Vote submitted!\nNominator: ${nominator.fullName}\nNominated: ${nominated.fullName}`
+    );
+
+    logData();
+  }
+
+  function logData() {
+    const formattedDate = currentDate
+      ? currentDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : "No date selected";
+
+    alert(
+      `${nominator.fullName} voted for ${nominated.fullName} on ${formattedDate}`
     );
   }
 
@@ -50,7 +67,7 @@ function App() {
         <div className="w-[100%] lg:w-[50%] place-content-center">
           <div className="flex flex-col">
             <h1 className="text-[#0046be] font-bold mt-10 text-4xl">
-              Best In Uniform
+              Best In Uniform (980)
             </h1>
             <p className="mt-1 mb-5">
               Nominate who you think is living our values!
@@ -79,7 +96,10 @@ function App() {
 
             {/* Date */}
             <p className="mt-5 mb-2 font-bold ">Date</p>
-            <DatePickerItem startDate={startDate} setStartDate={setStartDate} />
+            <DatePickerItem
+              currentDate={currentDate}
+              setCurrentDate={setCurrentDate}
+            />
 
             {/* Button */}
             {!isSelfVoting && (
