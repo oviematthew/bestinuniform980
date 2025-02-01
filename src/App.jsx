@@ -4,11 +4,14 @@ import Navbar from "./components/Navbar";
 import Dropdown from "./components/Dropdown";
 import ButtonItem from "./components/ButtonItem";
 import Checkboxes from "./components/Checkboxes";
+import DatePickerItem from "./components/DatePickerItem";
 
 function App() {
   const [nominator, setNominator] = useState(null);
   const [nominated, setNominated] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [startDate, setStartDate] = useState(new Date());
 
   const isSelfVoting = nominator && nominated && nominator.id === nominated.id;
 
@@ -23,6 +26,11 @@ function App() {
     }
     if (!nominated) {
       setErrorMessage("Please select a Nominee.");
+      return;
+    }
+
+    if (!startDate) {
+      setErrorMessage("Please select a date.");
       return;
     }
 
@@ -64,10 +72,14 @@ function App() {
 
             {/* Values */}
             <p className="mt-5 mb-2 font-bold ">Best Buy Values</p>
-            <Checkboxes labelText={"Having fun while being the best"} />
+            <Checkboxes labelText={"Having fun while being the best \n "} />
             <Checkboxes labelText={"Unleash the power of our people"} />
             <Checkboxes labelText={"Learning from challenge and change"} />
             <Checkboxes labelText={"Showing respect humility and integrity"} />
+
+            {/* Date */}
+            <p className="mt-5 mb-2 font-bold ">Date</p>
+            <DatePickerItem startDate={startDate} setStartDate={setStartDate} />
 
             {/* Button */}
             {!isSelfVoting && (

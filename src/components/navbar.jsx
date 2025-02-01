@@ -67,7 +67,7 @@ export default function Navbar() {
                   href="#"
                   className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white"
                 >
-                  Results
+                  Admin
                 </a>
               </div>
             </div>
