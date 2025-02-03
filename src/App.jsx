@@ -14,7 +14,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [currentDate, setCurrentDate] = useState(null);
   const [textValue, setTextValue] = useState("");
-  const [votingLive, setVotingLive] = useState(true);
+  const [votingLive, setVotingLive] = useState(false);
 
   const isSelfVoting = nominator && nominated && nominator.id === nominated.id;
 
@@ -154,9 +154,9 @@ function App() {
         {/* Success Screen*/}
         {!votingLive && <Success />}
 
-        <div className="lg:w-[50%] hidden lg:block">
+        <div className="hidden lg:w-[50%]  lg:flex lg:items-center lg:justify-center">
           <img
-            className="flex justify-center align-middle"
+            className="w-[80%]"
             src="src/assets/bgImage.JPG"
             alt="Background"
           />
