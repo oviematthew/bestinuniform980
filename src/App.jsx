@@ -14,7 +14,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [currentDate, setCurrentDate] = useState(null);
   const [textValue, setTextValue] = useState("");
-  const [votingLive, setVotingLive] = useState(false);
+  const [votingLive, setVotingLive] = useState(true);
 
   const isSelfVoting = nominator && nominated && nominator.id === nominated.id;
 
@@ -54,10 +54,12 @@ function App() {
       `Vote submitted!\nNominator: ${nominator.fullName}\nNominated: ${nominated.fullName} taking you home in 3 seconds`
     );
 
-    // Refresh after 2 seconds
+    setVotingLive(false);
+
+    // Refresh after 5 seconds
     setTimeout(() => {
       window.location.reload();
-    }, 3000);
+    }, 5000);
   }
 
   function logData() {
@@ -75,14 +77,14 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="h-screen">
       <Navbar />
 
       {/* Hero Section */}
       <div className="flex justify-between lg:ml-10 ">
         {/* Voting Screen */}
         {votingLive && (
-          <div className="w-[100%] lg:w-[50%] place-content-center">
+          <div className="w-[100%]  place-content-center">
             <div className="flex flex-col">
               <h1 className="text-[#0046be] font-bold mt-8 text-4xl">
                 Best In Uniform
@@ -154,13 +156,13 @@ function App() {
         {/* Success Screen*/}
         {!votingLive && <Success />}
 
-        <div className="hidden lg:w-[50%]  lg:flex lg:items-center lg:justify-center">
+        {/* <div className="hidden lg:w-[50%]  lg:flex lg:items-center lg:justify-center">
           <img
             className="w-[80%]"
             src="src/assets/bgImage.JPG"
             alt="Background"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

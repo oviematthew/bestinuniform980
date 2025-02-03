@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import successVideo from "../assets/success.webm";
 
 export default function Success() {
+  const [countdown, setCountdown] = useState(5);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown((prev) => (prev > 1 ? prev - 1 : 1));
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <div className="flex justify-center items-center">
-      <video
-        src="https://github.com/oviematthew/bestinuniform980/blob/main/src/assets/success.webm"
-        alt=""
-      />
+    <div className=" w-[100%] h-screen flex justify-center items-center">
+      <div>
+        <div>
+          <video src={successVideo} autoPlay loop muted className="w-full" />
+        </div>
+
+        <div>
+          <p className="mt-5 font-bold text-xl">Vote Successful</p>
+          <p className="mt-1 mb-3">Taking you home in {countdown}</p>
+        </div>
+      </div>
     </div>
   );
 }
