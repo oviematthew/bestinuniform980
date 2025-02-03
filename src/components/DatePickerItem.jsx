@@ -14,7 +14,7 @@ export default function DatePickerItem({ currentDate, setCurrentDate }) {
         required={true}
       />
       {/* Calendar Icon */}
-      <CalendarIcon className="absolute left-3 top-2 h-5 w-5 text-gray-400 pointer-events-none" />
+      <CalendarIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 pointer-events-none" />
     </div>
   );
 }

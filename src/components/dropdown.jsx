@@ -76,7 +76,7 @@ export default function Dropdown({ labelText, placeHolder, setSelected }) {
 
           {/* Dropdown Menu */}
           {open && filteredPeople.length > 0 && (
-            <ComboboxOptions className="absolute z-50 mt-1 w-[30%] bg-white border border-gray-300 rounded-md shadow-lg">
+            <ComboboxOptions className="absolute z-50 mt-1  bg-white border border-gray-300 rounded-md shadow-lg">
               {filteredPeople.map((employee) => (
                 <ComboboxOption
                   key={employee.id}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Checkbox, Field, Label } from "@headlessui/react";
 
 export default function Checkboxes({ labelText }) {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(true);
 
   return (
     <Field className="flex items-center gap-2">
