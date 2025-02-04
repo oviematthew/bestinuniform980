@@ -43,6 +43,8 @@ export default function Login() {
                   id="email"
                   name="email"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
                   placeholder="hello@gmail.com"
@@ -59,6 +61,7 @@ export default function Login() {
                 >
                   Password
                 </label>
+
                 <div className="text-sm">
                   <Link
                     to="/forgot-password"
@@ -73,6 +76,8 @@ export default function Login() {
                   id="password"
                   name="password"
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
                   placeholder="*************"

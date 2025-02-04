@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Home from "./Pages/Home";
 import Login from "./auth/Login";
 import ForgotPassword from "./auth/ForgotPassword";
+import Signup from "./auth/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./Pages/Dashboard";
 
@@ -19,6 +20,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/signup"
+          element={
+            <ProtectedRoute>
+              <Signup />
             </ProtectedRoute>
           }
         />

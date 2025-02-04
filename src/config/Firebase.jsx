@@ -1,6 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 import {
   getFirestore,
   getDocs,
@@ -27,6 +31,11 @@ const app = initializeApp(firebaseConfig);
 const database = getFirestore();
 const employeesData = collection(database, "Employees");
 const auth = getAuth(app);
+
+// Set Persistence
+setPersistence(auth, browserLocalPersistence)
+  .then(() => console.log("Persistence enabled"))
+  .catch((error) => console.error("Persistence error:", error));
 
 export { auth, database, employeesData };
 
