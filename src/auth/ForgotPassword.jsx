@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../config/Firebase";
+import { Link } from "react-router-dom";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -61,6 +62,29 @@ export default function ForgotPassword() {
             >
               Send Reset Email
             </button>
+
+            <div className="text-sm mt-5">
+              <Link
+                to="/login"
+                className="flex gap-2 items-center font-semibold text-[#0046BE] hover:blue-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                  />
+                </svg>
+                Back to Login
+              </Link>
+            </div>
 
             {message && (
               <p className="text-green-500 mt-2 text-sm">{message}</p>
