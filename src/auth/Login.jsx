@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/Firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -46,7 +46,7 @@ export default function Login() {
                   required
                   autoComplete="email"
                   placeholder="hello@gmail.com"
-                  className="block w-full rounded-md my-2 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full rounded-md my-2 p-2 border border-gray-300  focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
@@ -60,12 +60,12 @@ export default function Login() {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a
-                    href="#"
+                  <Link
+                    to="/forgot-password"
                     className="font-semibold text-[#0046BE] hover:blue-700"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="mt-2">
@@ -88,6 +88,8 @@ export default function Login() {
               >
                 Sign in
               </button>
+
+              {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
             </div>
           </form>
         </div>

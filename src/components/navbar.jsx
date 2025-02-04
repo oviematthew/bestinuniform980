@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { signOut } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { auth } from "../config/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation(); // Get current URL path
 
   return (
     <nav className="bg-[#0046be] max-w-full">
@@ -16,7 +17,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-gray-900 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
+              className="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-gray-900 hover:text-white focus:ring-2 focus:ring-white focus:outline-none focus:ring-inset"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
             >
@@ -58,18 +59,26 @@ export default function Navbar() {
           </div>
 
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center"></div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-10">
+                {/* Home */}
                 <Link
                   to="/"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-blue-900 hover:text-white"
+                  className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                    location.pathname === "/" ? "text-white" : "text-gray-300"
+                  }`}
                 >
                   Home
                 </Link>
+
+                {/* Login */}
                 <Link
                   to="/login"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white"
+                  className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                    location.pathname === "/login"
+                      ? "text-white"
+                      : "text-gray-300"
+                  }`}
                 >
                   Login
                 </Link>
@@ -94,15 +103,22 @@ export default function Navbar() {
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pt-2 pb-3">
+          {/* Home Link */}
           <Link
             to="/"
-            className="block px-3 py-2 text-base font-medium text-white hover:bg-blue-900 hover:text-white"
+            className={`block px-3 py-2 text-base font-medium hover:bg-blue-900 hover:text-white ${
+              location.pathname === "/" ? "text-white" : "text-gray-300"
+            }`}
           >
             Home
           </Link>
+
+          {/* Login Link */}
           <Link
             to="/login"
-            className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-blue-900 hover:text-white"
+            className={`block px-3 py-2 text-base font-medium hover:bg-blue-900 hover:text-white ${
+              location.pathname === "/login" ? "text-white" : "text-gray-300"
+            }`}
           >
             Login
           </Link>

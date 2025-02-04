@@ -49,9 +49,9 @@ export default function Home() {
 
     // Clear the error if everything is filled
     setErrorMessage("");
-    alert(
-      `Vote submitted!\nNominator: ${nominator.fullName}\nNominated: ${nominated.fullName} taking you home in 3 seconds`
-    );
+    // alert(
+    //   `Vote submitted!\nNominator: ${nominator.fullName}\nNominated: ${nominated.fullName} taking you home in 3 seconds`
+    // );
 
     setVotingLive(false);
 
@@ -70,9 +70,9 @@ export default function Home() {
         })
       : "No date selected";
 
-    alert(
-      `${nominator.fullName} voted for ${nominated.fullName} on ${formattedDate} Reason: ${textValue}`
-    );
+    // alert(
+    //   `${nominator.fullName} voted for ${nominated.fullName} on ${formattedDate} Reason: ${textValue}`
+    // );
   }
 
   return (
