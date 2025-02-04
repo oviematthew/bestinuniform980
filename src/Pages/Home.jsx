@@ -83,7 +83,7 @@ export default function Home() {
         {votingLive && (
           <div className="w-[100%]  place-content-center">
             <div className="flex flex-col">
-              <h1 className="text-[#0046be] font-bold mt-5 text-4xl">
+              <h1 className="text-[#0046be] font-bold mt-5 text-3xl">
                 Best In Uniform
               </h1>
               <p className="mt-1 mb-3">

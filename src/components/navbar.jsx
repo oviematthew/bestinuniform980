@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { signOut } from "firebase/auth";
+import { Link } from "react-router-dom";
+import { auth } from "../config/Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,18 +61,18 @@ export default function Navbar() {
             <div className="flex shrink-0 items-center"></div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-10">
-                <a
-                  href="#"
+                <Link
+                  to="/"
                   className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-blue-900 hover:text-white"
                 >
                   Home
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="/login"
                   className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white"
                 >
-                  Admin
-                </a>
+                  Login
+                </Link>
               </div>
             </div>
           </div>
@@ -90,18 +94,18 @@ export default function Navbar() {
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pt-2 pb-3">
-          <a
-            href="#"
+          <Link
+            to="/"
             className="block px-3 py-2 text-base font-medium text-white hover:bg-blue-900 hover:text-white"
           >
             Home
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/login"
             className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-blue-900 hover:text-white"
           >
-            Admin
-          </a>
+            Login
+          </Link>
         </div>
       </div>
     </nav>
