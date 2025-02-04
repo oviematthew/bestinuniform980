@@ -1,8 +1,9 @@
 import { Input } from "@headlessui/react";
 
-export default function TextInput({ placeholder, value, onChange }) {
+export default function TextInput({ placeholder, value, onChange, ariaLabel }) {
   return (
     <Input
+      aria-label={ariaLabel}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}

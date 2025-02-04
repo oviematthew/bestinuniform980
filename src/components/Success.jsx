@@ -23,7 +23,7 @@ export default function Success() {
 
         <div>
           <p className="mt-5 font-bold text-xl">Vote Successful</p>
-          <p className="mt-1 mb-3">Taking you home in {countdown}</p>
+          <p className="mt-1 mb-3">Taking you back home in {countdown}</p>
         </div>
       </div>
     </div>
