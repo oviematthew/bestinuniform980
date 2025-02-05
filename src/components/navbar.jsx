@@ -7,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation(); // Get current URL path
+  const [user, loading] = useAuthState(auth); // Get sign in state
 
   return (
     <nav className="bg-[#0046be] max-w-full">
@@ -72,16 +73,32 @@ export default function Navbar() {
                 </Link>
 
                 {/* Login */}
-                <Link
-                  to="/login"
-                  className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
-                    location.pathname === "/login"
-                      ? "text-white"
-                      : "text-gray-300"
-                  }`}
-                >
-                  Login
-                </Link>
+                {!user && (
+                  <Link
+                    to="/login"
+                    className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                      location.pathname === "/login"
+                        ? "text-white"
+                        : "text-gray-300"
+                    }`}
+                  >
+                    Login
+                  </Link>
+                )}
+
+                {/* Dashboard */}
+                {user && (
+                  <Link
+                    to="/dashboard"
+                    className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                      location.pathname === "/dashboard"
+                        ? "text-white"
+                        : "text-gray-300"
+                    }`}
+                  >
+                    Dashboard
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -102,9 +119,10 @@ export default function Navbar() {
         className={`sm:hidden ${isOpen ? "block" : "hidden"}`}
         id="mobile-menu"
       >
-        <div className="space-y-1 px-2 pt-2 pb-3">
+        <div className="flex flex-col gap-2 space-y-1 px-2 pt-2 pb-3">
           {/* Home Link */}
           <Link
+            onClick={() => setIsOpen(!isOpen)}
             to="/"
             className={`block px-3 py-2 text-base font-medium hover:bg-blue-900 hover:text-white ${
               location.pathname === "/" ? "text-white" : "text-gray-300"
@@ -113,15 +131,33 @@ export default function Navbar() {
             Home
           </Link>
 
-          {/* Login Link */}
-          <Link
-            to="/login"
-            className={`block px-3 py-2 text-base font-medium hover:bg-blue-900 hover:text-white ${
-              location.pathname === "/login" ? "text-white" : "text-gray-300"
-            }`}
-          >
-            Login
-          </Link>
+          {/* Login */}
+          {!user && (
+            <Link
+              to="/login"
+              onClick={() => setIsOpen(!isOpen)}
+              className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                location.pathname === "/login" ? "text-white" : "text-gray-300"
+              }`}
+            >
+              Login
+            </Link>
+          )}
+
+          {/* Dashboard */}
+          {user && (
+            <Link
+              to="/dashboard"
+              onClick={() => setIsOpen(!isOpen)}
+              className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                location.pathname === "/dashboard"
+                  ? "text-white"
+                  : "text-gray-300"
+              }`}
+            >
+              Dashboard
+            </Link>
+          )}
         </div>
       </div>
     </nav>
