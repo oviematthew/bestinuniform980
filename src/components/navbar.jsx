@@ -99,9 +99,25 @@ export default function Navbar() {
                     Dashboard
                   </Link>
                 )}
+
+                {/* Results*/}
+                {user && (
+                  <Link
+                    to="/results"
+                    className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                      location.pathname === "/results"
+                        ? "text-white"
+                        : "text-gray-300"
+                    }`}
+                  >
+                    Results
+                  </Link>
+                )}
               </div>
             </div>
           </div>
+
+          {/* Mobile Menu Below */}
 
           {/* Mobile Logo */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -156,6 +172,21 @@ export default function Navbar() {
               }`}
             >
               Dashboard
+            </Link>
+          )}
+
+          {/* Results*/}
+          {user && (
+            <Link
+              to="/results"
+              onClick={() => setIsOpen(!isOpen)}
+              className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                location.pathname === "/results"
+                  ? "text-white"
+                  : "text-gray-300"
+              }`}
+            >
+              Results
             </Link>
           )}
         </div>

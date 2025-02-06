@@ -33,9 +33,9 @@ const employeesData = collection(database, "Employees");
 const auth = getAuth(app);
 
 // Set Persistence
-setPersistence(auth, browserLocalPersistence)
-  .then(() => console.log("Persistence enabled"))
-  .catch((error) => console.error("Persistence error:", error));
+setPersistence(auth, browserLocalPersistence).catch((error) =>
+  console.error("Persistence error:", error)
+);
 
 export { auth, database, employeesData };
 

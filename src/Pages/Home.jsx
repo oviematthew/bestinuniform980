@@ -6,6 +6,8 @@ import Checkboxes from "../components/Checkboxes";
 import DatePickerItem from "../components/DatePickerItem";
 import TextInput from "../components/TextInput";
 import Success from "../components/Success";
+import { doc, updateDoc, increment } from "firebase/firestore";
+import { database } from "../config/Firebase";
 
 export default function Home() {
   const [nominator, setNominator] = useState(null);
@@ -18,8 +20,8 @@ export default function Home() {
   const isSelfVoting = nominator && nominated && nominator.id === nominated.id;
 
   // Form Validation
-  function handleVoting() {
-    if (!nominator && !nominated) {
+  async function handleVoting() {
+    if (!nominator || !nominated) {
       setErrorMessage("Please select both a Nominator and a Nominee.");
       return;
     }
@@ -31,34 +33,43 @@ export default function Home() {
       setErrorMessage("Please select a Nominee.");
       return;
     }
-    if (textValue === "") {
+    if (textValue.trim() === "") {
       setErrorMessage("Please fill a reason for Nomination.");
       return;
     }
-
     if (!currentDate) {
       setErrorMessage("Please select a date.");
       return;
     }
 
-    // Hide Voting Screen
-    setVotingLive(false);
+    try {
+      // Reference to the nominee's document
+      const nomineeRef = doc(database, "Employees", nominated.id);
 
-    // Log data to backend
-    logData();
+      // Increment vote count by 1
+      await updateDoc(nomineeRef, {
+        voteCount: increment(1),
+      });
 
-    // Clear the error if everything is filled
-    setErrorMessage("");
-    // alert(
-    //   `Vote submitted!\nNominator: ${nominator.fullName}\nNominated: ${nominated.fullName} taking you home in 3 seconds`
-    // );
+      console.log(`Vote recorded for ${nominated.fullName}`);
 
-    setVotingLive(false);
+      // Hide Voting Screen
+      setVotingLive(false);
 
-    // Refresh after 5 seconds
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000);
+      // Log data to backend
+      logData();
+
+      // Clear the error if everything is filled
+      setErrorMessage("");
+
+      // Refresh after 5 seconds
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
+    } catch (error) {
+      console.error("Error updating vote count:", error);
+      setErrorMessage("Failed to submit vote. Please try again.");
+    }
   }
 
   function logData() {

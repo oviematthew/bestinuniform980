@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import Login from "./auth/Login";
 import ForgotPassword from "./auth/ForgotPassword";
 import Signup from "./auth/Signup";
+import Results from "./Pages/Results";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./Pages/Dashboard";
 
@@ -28,6 +29,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Signup />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/results"
+          element={
+            <ProtectedRoute>
+              <Results />
             </ProtectedRoute>
           }
         />
