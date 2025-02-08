@@ -12,7 +12,6 @@ import {
   getDoc,
   collection,
 } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
