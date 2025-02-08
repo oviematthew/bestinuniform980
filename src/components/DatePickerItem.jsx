@@ -1,7 +1,7 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CalendarIcon } from "@heroicons/react/20/solid"; // Import icon
+import { CalendarIcon } from "@heroicons/react/20/solid"; 
 
 export default function DatePickerItem({ currentDate, setCurrentDate }) {
   return (

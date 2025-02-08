@@ -63,8 +63,8 @@ export default function Results() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold mb-4">Best In Uniform Results</h1>
+    <div className="flex flex-col items-center justify-center mt-6 ">
+      <h1 className="text-2xl font-bold mb-4">Voting Results</h1>
       <div className="w-full max-w-2xl">
         <Bar data={chartData} options={chartOptions} />
       </div>

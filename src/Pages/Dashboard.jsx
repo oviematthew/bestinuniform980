@@ -49,10 +49,10 @@ export default function Dashboard() {
         });
       });
 
-      console.log("All votes have been reset to 0");
+      // Message on screen
       setResetMessage("All votes have been reset to 0");
     } catch (error) {
-      console.error("Error resetting votes:", error);
+      // Message on screen;
       setResetMessage("Failed to reset votes. Please try again.");
     }
   }
@@ -97,7 +97,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-3">
         <h1 className="text-[#0046be] font-bold mt-5 text-2xl">
           Hi, Good {message}
         </h1>
@@ -110,10 +110,10 @@ export default function Dashboard() {
           Logout
         </button>
       </div>
+      <hr />
 
       {/* Quick Actions */}
       <p className="mt-3  font-bold text-lg">Quick Actions</p>
-      <p className="mt-3  font-bold text-lg">Add Employee</p>
 
       {/* Remove */}
       <div className="my-5">
@@ -156,7 +156,7 @@ export default function Dashboard() {
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel
               transition
-              className="w-full max-w-md rounded-xl bg-[#0046be] p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+              className="w-full max-w-md rounded-xl bg-slate-500 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
               <DialogTitle as="h3" className="text-base/7 font-bold text-white">
                 Reset Votes
@@ -166,7 +166,7 @@ export default function Dashboard() {
               </p>
               <div className=" flex gap-3 mt-4">
                 <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-white py-1.5 px-5 text-sm/6 font-semibold text-black shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-slate-500 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-white-700"
+                  className="inline-flex items-center gap-2 rounded-md bg-white py-1.5 px-5 text-sm/6 font-semibold text-black shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-black data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-white-700"
                   onClick={closeModal}
                 >
                   Nope
