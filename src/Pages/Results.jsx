@@ -32,7 +32,7 @@ export default function Results() {
     return () => unsubscribe(); // Cleanup listener on unmount
   }, []);
 
-  //Filter Employees to show those above 0
+  //Filter Employees to only show those above 0
   const filteredEmployees = employees.filter((emp) => emp.voteCount > 0);
 
   //Prepare chart data
