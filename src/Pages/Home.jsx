@@ -6,15 +6,15 @@ import Checkboxes from "../components/Checkboxes";
 import DatePickerItem from "../components/DatePickerItem";
 import TextInput from "../components/TextInput";
 import Success from "../components/Success";
-import { doc, updateDoc, increment } from "firebase/firestore";
-import { database } from "../config/Firebase";
+import { doc, addDoc, updateDoc, increment } from "firebase/firestore";
+import { database, logsCollection } from "../config/Firebase";
 
 export default function Home() {
   const [nominator, setNominator] = useState(null);
   const [nominated, setNominated] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [currentDate, setCurrentDate] = useState(null);
-  const [textValue, setTextValue] = useState("");
+  const [reason, setReason] = useState("");
   const [votingLive, setVotingLive] = useState(true);
 
   const isSelfVoting = nominator && nominated && nominator.id === nominated.id;
@@ -25,15 +25,7 @@ export default function Home() {
       setErrorMessage("Please select both a Nominator and a Nominee.");
       return;
     }
-    if (!nominator) {
-      setErrorMessage("Please select a Nominator.");
-      return;
-    }
-    if (!nominated) {
-      setErrorMessage("Please select a Nominee.");
-      return;
-    }
-    if (textValue.trim() === "") {
+    if (!reason.trim()) {
       setErrorMessage("Please fill a reason for Nomination.");
       return;
     }
@@ -57,7 +49,7 @@ export default function Home() {
       setVotingLive(false);
 
       // Log data to backend
-      logData();
+      await logData();
 
       // Clear the error if everything is filled
       setErrorMessage("");
@@ -72,7 +64,8 @@ export default function Home() {
     }
   }
 
-  function logData() {
+  //Log Data
+  async function logData() {
     const formattedDate = currentDate
       ? currentDate.toLocaleDateString("en-US", {
           year: "numeric",
@@ -81,18 +74,26 @@ export default function Home() {
         })
       : "No date selected";
 
-    // alert(
-    //   `${nominator.fullName} voted for ${nominated.fullName} on ${formattedDate} Reason: ${textValue}`
-    // );
+    try {
+      await addDoc(logsCollection, {
+        nominatorName: nominator.fullName,
+        nomineeName: nominated.fullName,
+        date: formattedDate,
+        nominatorReason: reason,
+      });
+      console.log("Vote log saved.");
+    } catch (error) {
+      console.error("Error adding vote log:", error);
+    }
   }
 
   return (
     <div className="h-screen">
       {/* Hero Section */}
-      <div className="flex justify-between lg:ml-10 ">
+      <div className="flex justify-between lg:ml-10">
         {/* Voting Screen */}
         {votingLive && (
-          <div className="w-[100%]  place-content-center">
+          <div className="w-[100%] place-content-center">
             <div className="flex flex-col">
               <h1 className="text-[#0046be] font-bold mt-5 text-3xl">
                 Best In Uniform
@@ -116,11 +117,11 @@ export default function Home() {
               />
 
               {/* Reason For Nomination */}
-              <p className="mt-5 text-sm ">Reason For Nomination</p>
+              <p className="mt-5 text-sm">Reason For Nomination</p>
               <TextInput
-                ariaLabel={"Reason for Nomination"}
-                value={textValue}
-                onChange={setTextValue}
+                ariaLabel="Reason for Nomination"
+                value={reason}
+                onChange={setReason}
                 placeholder={
                   nominated
                     ? `Why did you nominate ${nominated.fullName}?`
@@ -130,12 +131,10 @@ export default function Home() {
 
               {/* Values */}
               <p className="mt-3 mb-2 font-bold text-sm">Best Buy Values</p>
-              <Checkboxes labelText={"Learning from challenge and change"} />
-              <Checkboxes labelText={"Unleash the power of our people"} />
-              <Checkboxes
-                labelText={"Showing respect humility and integrity"}
-              />
-              <Checkboxes labelText={"Having fun while being the best"} />
+              <Checkboxes labelText="Learning from challenge and change" />
+              <Checkboxes labelText="Unleash the power of our people" />
+              <Checkboxes labelText="Showing respect, humility, and integrity" />
+              <Checkboxes labelText="Having fun while being the best" />
 
               {/* Date */}
               <p className="mt-5 mb-2 font-bold text-sm">Date</p>
@@ -164,14 +163,6 @@ export default function Home() {
 
         {/* Success Screen*/}
         {!votingLive && <Success />}
-
-        {/* <div className="hidden lg:w-[50%]  lg:flex lg:items-center lg:justify-center">
-          <img
-            className="w-[80%]"
-            src="src/assets/bgImage.JPG"
-            alt="Background"
-          />
-        </div> */}
       </div>
     </div>
   );
