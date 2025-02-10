@@ -3,7 +3,7 @@ import { Button } from "@headlessui/react";
 
 export default function ButtonItem({ buttonText, onClick }) {
   return (
-    <div class="mt-6">
+    <div className="mt-3">
       <Button
         aria-label="Vote Now"
         type="submit"
