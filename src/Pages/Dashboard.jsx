@@ -2,14 +2,26 @@ import { auth } from "../config/Firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
-import { database } from "../config/Firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
+import { database, employeesData, loadEmployees } from "../config/Firebase";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import Dropdown from "../components/Dropdown";
+import TextInput from "../components/TextInput";
+import ButtonItem from "../components/ButtonItem";
 
 export default function Dashboard() {
   const [message, setMessage] = useState("");
   const [employee, setEmployee] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [resetMessage, setResetMessage] = useState("");
   let [isOpen, setIsOpen] = useState(false);
 
@@ -58,12 +70,70 @@ export default function Dashboard() {
   }
 
   async function removeEmployee() {
+    if (!employee) {
+      setErrorMessage("Please select an employee to remove.");
+      return;
+    }
+
+    // Show confirmation alert
+    const confirmDelete = window.confirm(
+      `Are you sure you want to remove ${employee.fullName}?`
+    );
+
+    if (!confirmDelete) {
+      return; // Exit if user cancels
+    }
+
     try {
-      // Get all employee documents
-      const employeesRef = collection(database, "Employees");
-      const snapshot = await getDocs(employeesRef);
+      // Reference the employee document by ID
+      const employeeRef = doc(database, "Employees", employee.id);
+
+      // Delete from Firestore
+      await deleteDoc(employeeRef);
+
+      // Show success message
+      alert("Employee removed successfully.");
+
+      // Refresh after 1 seconds
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error("Error removing employee:", error);
+      alert("Failed to remove employee.");
+    }
+  }
+
+  // Add Employee
+  async function handleAddEmployee() {
+    if (!firstName.trim()) {
+      setErrorMessage("Please fill in First Name");
+      return;
+    }
+
+    if (!lastName.trim()) {
+      setErrorMessage("Please fill in Last Name");
+      return;
+    }
+
+    try {
+      const newEmployeeRef = await addDoc(employeesData, {
+        fullName: `${firstName} ${lastName}`,
+        voteCount: 0, // No need to manually set an ID before it's created
+      });
+
+      // Update Firestore to store the generated ID
+      await updateDoc(newEmployeeRef, { id: newEmployeeRef.id });
+
+      // Show success
+      alert(`Employee: ${firstName} ${lastName} added Successfully`);
+
+      // Refresh after 2 seconds
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      setErrorMessage("Error adding employee: " + error.message);
     }
   }
 
@@ -97,49 +167,55 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between mb-3">
+      <div className="flex justify-between items-center mb-5">
         <h1 className="text-[#0046be] font-bold mt-5 text-2xl">
-          Hi, Good {message}
+          Good {message}!
         </h1>
 
         {/* Logout */}
-        <button
-          onClick={handleLogout}
-          className="bg-[#0046be] text-white px-4 py-2 mt-4 rounded"
-        >
-          Logout
-        </button>
+        <ButtonItem onClick={handleLogout} buttonText="Sign Out" />
       </div>
       <hr />
 
-      {/* Quick Actions */}
-      <p className="mt-3  font-bold text-lg">Quick Actions</p>
-
-      {/* Remove */}
-      <div className="my-5">
-        <Dropdown
-          labelText="Remove Employee"
-          placeHolder="Start typing"
-          setSelected={setEmployee}
+      {/* Add Employee */}
+      <div>
+        <h2 className="text-xl text-black font-bold mt-5  mb-3 ">
+          Add Employee
+        </h2>
+        <TextInput
+          ariaLabel="Employee First Name"
+          value={firstName}
+          onChange={setFirstName}
+          placeholder={"First Name"}
         />
 
-        <button
-          onClick={removeEmployee}
-          className="bg-red-500 text-white px-4 py-2 mt-4 rounded"
-        >
-          Remove Employee
-        </button>
+        <TextInput
+          ariaLabel="Employee First Name"
+          value={lastName}
+          onChange={setLastName}
+          placeholder={"Last Name"}
+        />
+
+        <ButtonItem onClick={handleAddEmployee} buttonText="Add Employee" />
+
+        {errorMessage && (
+          <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
+        )}
+      </div>
+
+      {/* Remove */}
+      <div className="my-7">
+        <h2 className="text-xl text-black font-bold mt-3 ">Remove Employee</h2>
+        <Dropdown placeHolder="Start typing" setSelected={setEmployee} />
+
+        <ButtonItem onClick={removeEmployee} buttonText="Remove Employee" />
       </div>
 
       {/* Reset Votes Button */}
 
       <div>
-        <button
-          onClick={openModal}
-          className="bg-red-500 text-white px-4 py-2 mt-4 rounded"
-        >
-          Reset Votes
-        </button>
+        <h2 className="text-xl text-black font-bold mt-3 ">Reset Votes</h2>
+        <ButtonItem onClick={openModal} buttonText="Reset Votes" />
 
         {resetMessage && (
           <p className="text-red-500 mt-2 text-sm">{resetMessage}</p>
@@ -156,7 +232,7 @@ export default function Dashboard() {
           <div className="flex min-h-full items-center justify-center p-4">
             <DialogPanel
               transition
-              className="w-full max-w-md rounded-xl bg-slate-500 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+              className="w-full max-w-md rounded-xl bg-blue-600 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
               <DialogTitle as="h3" className="text-base/7 font-bold text-white">
                 Reset Votes

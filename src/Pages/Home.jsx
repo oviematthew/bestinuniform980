@@ -81,9 +81,8 @@ export default function Home() {
         date: formattedDate,
         nominatorReason: reason,
       });
-      console.log("Vote log saved.");
     } catch (error) {
-      console.error("Error adding vote log:", error);
+      setErrorMessage("Error adding vote log:", error);
     }
   }
 

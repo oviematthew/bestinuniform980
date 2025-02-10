@@ -27,7 +27,7 @@ export default function Results() {
   const [employees, setEmployees] = useState([]);
   const [logs, setLogs] = useState([]);
   const [page, setPage] = useState(1);
-  const rowsPerPage = 8;
+  const rowsPerPage = 3;
 
   useEffect(() => {
     const employeesRef = collection(database, "Employees");
@@ -86,8 +86,8 @@ export default function Results() {
   );
 
   return (
-    <div className="flex flex-col  mt-6">
-      <h1 className="text-2xl text-[#0046be] font-bold mb-4 pl-5">
+    <div className="flex flex-col  mt-6 pl-2w">
+      <h1 className="text-2xl text-[#0046be] font-bold mb-4 ">
         Voting Results
       </h1>
       <div className="w-full max-w-2xl">
@@ -95,7 +95,8 @@ export default function Results() {
       </div>
 
       <div className="mt-10 w-full">
-        <h2 className="text-2xl text-[#0046be] font-bold mt-5 pl-5 mb-3 ">
+        <hr />
+        <h2 className="text-2xl text-[#0046be] font-bold mt-5  mb-3 ">
           Voting Logs
         </h2>
         <Table
@@ -104,13 +105,11 @@ export default function Results() {
             <div className="flex w-full justify-center">
               <Pagination
                 isCompact
-                showControls
                 showShadow
-                radius="md"
-                color="secondary"
                 page={page}
                 total={pages}
                 onChange={(page) => setPage(page)}
+                style={{ margin: "0 8px" }}
               />
             </div>
           }
