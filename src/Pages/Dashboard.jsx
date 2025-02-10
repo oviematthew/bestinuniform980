@@ -10,8 +10,7 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import { database, employeesData, loadEmployees } from "../config/Firebase";
-import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { database, employeesData } from "../config/Firebase";
 import Dropdown from "../components/Dropdown";
 import TextInput from "../components/TextInput";
 import ButtonItem from "../components/ButtonItem";
@@ -22,8 +21,6 @@ export default function Dashboard() {
   const [errorMessage, setErrorMessage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [resetMessage, setResetMessage] = useState("");
-  let [isOpen, setIsOpen] = useState(false);
 
   const date = new Date();
   let hour = date.getHours();
@@ -33,19 +30,16 @@ export default function Dashboard() {
     checkTime();
   }, []);
 
-  useEffect(() => {
-    // If resetMessage is not empty, start the interval to clear it after 3 seconds
-    if (resetMessage) {
-      const interval = setInterval(() => {
-        setResetMessage(""); // Clear the message after 3 seconds
-      }, 3000);
-
-      // Clean up the interval when component is unmounted or when resetMessage changes
-      return () => clearInterval(interval);
-    }
-  }, [resetMessage]); // Run the effect only when resetMessage changes
-
   async function resetVotes() {
+    // Show confirmation alert
+    const confirmDelete = window.confirm(
+      `Are you sure you want to reset votes?`
+    );
+
+    if (!confirmDelete) {
+      return; // Exit if user cancels
+    }
+
     try {
       // Get all employee documents
       const employeesRef = collection(database, "Employees");
@@ -62,10 +56,11 @@ export default function Dashboard() {
       });
 
       // Message on screen
-      setResetMessage("All votes have been reset to 0");
+      // Show success
+      alert(`Votes successfully reset`);
     } catch (error) {
       // Message on screen;
-      setResetMessage("Failed to reset votes. Please try again.");
+      alert("Failed to reset votes. Please try again.");
     }
   }
 
@@ -137,19 +132,6 @@ export default function Dashboard() {
     }
   }
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function affirmReset() {
-    resetVotes();
-    setIsOpen(false);
-  }
-
   function checkTime() {
     if (hour >= 0 && hour < 12) {
       setMessage("Morning");
@@ -215,49 +197,8 @@ export default function Dashboard() {
 
       <div>
         <h2 className="text-xl text-black font-bold mt-3 ">Reset Votes</h2>
-        <ButtonItem onClick={openModal} buttonText="Reset Votes" />
-
-        {resetMessage && (
-          <p className="text-red-500 mt-2 text-sm">{resetMessage}</p>
-        )}
+        <ButtonItem onClick={resetVotes} buttonText="Reset Votes" />
       </div>
-
-      <Dialog
-        open={isOpen}
-        as="div"
-        className="relative z-10 focus:outline-none"
-        onClose={closeModal}
-      >
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <DialogPanel
-              transition
-              className="w-full max-w-md rounded-xl bg-blue-600 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
-            >
-              <DialogTitle as="h3" className="text-base/7 font-bold text-white">
-                Reset Votes
-              </DialogTitle>
-              <p className="mt-2 text-sm/6 text-white">
-                Are you sure you want to reset Votes?
-              </p>
-              <div className=" flex gap-3 mt-4">
-                <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-white py-1.5 px-5 text-sm/6 font-semibold text-black shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-black data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-white-700"
-                  onClick={closeModal}
-                >
-                  Nope
-                </Button>
-                <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-red-500 py-1.5 px-5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-red-700  data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                  onClick={affirmReset}
-                >
-                  Yep
-                </Button>
-              </div>
-            </DialogPanel>
-          </div>
-        </div>
-      </Dialog>
     </div>
   );
 }
