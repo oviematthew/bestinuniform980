@@ -89,9 +89,9 @@ export default function Navbar() {
                 {/* Dashboard */}
                 {user && (
                   <Link
-                    to="/dashboard"
+                    to="/admin/dashboard"
                     className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
-                      location.pathname === "/dashboard"
+                      location.pathname === "/admin/dashboard"
                         ? "text-white"
                         : "text-gray-300"
                     }`}
@@ -103,14 +103,28 @@ export default function Navbar() {
                 {/* Results*/}
                 {user && (
                   <Link
-                    to="/results"
+                    to="/admin/results"
                     className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
-                      location.pathname === "/results"
+                      location.pathname === "/admin/results"
                         ? "text-white"
                         : "text-gray-300"
                     }`}
                   >
                     Results
+                  </Link>
+                )}
+
+                {/* Settings*/}
+                {user && (
+                  <Link
+                    to="/admin/settings"
+                    className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                      location.pathname === "/admin/settings"
+                        ? "text-white"
+                        : "text-gray-300"
+                    }`}
+                  >
+                    Settings
                   </Link>
                 )}
               </div>
@@ -163,10 +177,10 @@ export default function Navbar() {
           {/* Dashboard */}
           {user && (
             <Link
-              to="/dashboard"
+              to="/admin/dashboard"
               onClick={() => setIsOpen(!isOpen)}
               className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
-                location.pathname === "/dashboard"
+                location.pathname === "/admin/dashboard"
                   ? "text-white"
                   : "text-gray-300"
               }`}
@@ -178,15 +192,30 @@ export default function Navbar() {
           {/* Results*/}
           {user && (
             <Link
-              to="/results"
+              to="/admin/results"
               onClick={() => setIsOpen(!isOpen)}
               className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
-                location.pathname === "/results"
+                location.pathname === "/admin/results"
                   ? "text-white"
                   : "text-gray-300"
               }`}
             >
               Results
+            </Link>
+          )}
+
+          {/* Settings*/}
+          {user && (
+            <Link
+              to="/admin/settings"
+              onClick={() => setIsOpen(!isOpen)}
+              className={`rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-900 hover:text-white ${
+                location.pathname === "/admin/settings"
+                  ? "text-white"
+                  : "text-gray-300"
+              }`}
+            >
+              Settings
             </Link>
           )}
         </div>
