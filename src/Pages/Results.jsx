@@ -27,7 +27,7 @@ export default function Results() {
   const [employees, setEmployees] = useState([]);
   const [logs, setLogs] = useState([]);
   const [page, setPage] = useState(1);
-  const rowsPerPage = 3;
+  const rowsPerPage = 10;
 
   useEffect(() => {
     const employeesRef = collection(database, "Employees");
@@ -53,8 +53,8 @@ export default function Results() {
       .catch((error) => console.error("Error loading logs:", error));
   }, []);
 
+  // Chart logic
   const filteredEmployees = employees.filter((emp) => emp.voteCount > 0);
-
   const chartData = {
     labels: filteredEmployees.map((emp) => emp.fullName),
     datasets: [
@@ -106,10 +106,15 @@ export default function Results() {
               <Pagination
                 isCompact
                 showShadow
+                classNames={{
+                  wrapper: "flex gap-2",
+                  item: "px-4 py-2 mx-1 rounded-md transition-all bg-gray-200 hover:bg-gray-300",
+                  active: "bg-[#0046BE] text-white rounded-[20%] font-bold",
+                }}
                 page={page}
                 total={pages}
                 onChange={(page) => setPage(page)}
-                style={{ margin: "0 8px" }}
+                style={{ margin: "10px 0" }}
               />
             </div>
           }

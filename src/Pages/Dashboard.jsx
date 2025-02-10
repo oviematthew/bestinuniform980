@@ -89,7 +89,7 @@ export default function Dashboard() {
       // Show success message
       alert("Employee removed successfully.");
 
-      // Refresh after 1 seconds
+      // Refresh after 2 seconds
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -157,11 +157,9 @@ export default function Dashboard() {
         {/* Logout */}
         <ButtonItem onClick={handleLogout} buttonText="Sign Out" />
       </div>
-      <hr />
-
       {/* Add Employee */}
       <div>
-        <h2 className="text-xl text-black font-bold mt-5  mb-3 ">
+        <h2 className="text-m text-black font-bold mt-5  mb-3 ">
           Add Employee
         </h2>
         <TextInput
@@ -187,7 +185,7 @@ export default function Dashboard() {
 
       {/* Remove */}
       <div className="my-7">
-        <h2 className="text-xl text-black font-bold mt-3 ">Remove Employee</h2>
+        <h2 className="text-m text-black font-bold mt-3 ">Remove Employee</h2>
         <Dropdown placeHolder="Start typing" setSelected={setEmployee} />
 
         <ButtonItem onClick={removeEmployee} buttonText="Remove Employee" />
@@ -196,7 +194,7 @@ export default function Dashboard() {
       {/* Reset Votes Button */}
 
       <div>
-        <h2 className="text-xl text-black font-bold mt-3 ">Reset Votes</h2>
+        <h2 className="text-m text-black font-bold mt-3 ">Reset Votes</h2>
         <ButtonItem onClick={resetVotes} buttonText="Reset Votes" />
       </div>
     </div>
