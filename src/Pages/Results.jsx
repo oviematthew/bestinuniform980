@@ -19,6 +19,7 @@ import {
   TableCell,
   Pagination,
 } from "@heroui/react";
+import UserHeader from "../components/UserHeader";
 
 // Register required Chart.js components
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -86,19 +87,20 @@ export default function Results() {
   );
 
   return (
-    <div className="flex flex-col  mt-6 pl-2w">
-      <h1 className="text-2xl text-[#0046be] font-bold mb-4 ">
+    <div className="flex flex-col px-6">
+      <UserHeader />
+      <h2 className="text-2xl text-center text-black font-bold mt-10  mb-3 ">
         Voting Results
-      </h1>
-      <div className="w-full max-w-2xl">
+      </h2>
+      <div className="w-full max-w-2xl mx-auto my-0">
         <Bar data={chartData} options={chartOptions} />
       </div>
 
-      <div className="mt-10 w-full">
-        <hr />
-        <h2 className="text-2xl text-[#0046be] font-bold mt-5  mb-3 ">
+      <div className="mt-20 w-full">
+        <h2 className="text-2xl text-center text-black font-bold mt-10  mb-3 ">
           Voting Logs
         </h2>
+        <hr />
         <Table
           aria-label="Log Table"
           bottomContent={

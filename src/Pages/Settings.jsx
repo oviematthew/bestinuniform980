@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { updatePassword } from "firebase/auth";
 import { auth } from "../config/Firebase";
+import UserHeader from "../components/UserHeader";
 
 export default function Settings() {
   const [password, setPassword] = useState("");
@@ -40,9 +41,10 @@ export default function Settings() {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col  px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col  px-6  lg:px-8">
+      <UserHeader />
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h1 className="text-[#0046be] font-bold mt-5 text-3xl">
+        <h1 className="text-[#0046be] font-bold mt-10 text-3xl">
           Change Password
         </h1>
       </div>

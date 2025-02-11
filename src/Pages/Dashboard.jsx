@@ -1,7 +1,4 @@
-import { auth } from "../config/Firebase";
-import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   collection,
   addDoc,
@@ -14,21 +11,14 @@ import { database, employeesData } from "../config/Firebase";
 import Dropdown from "../components/Dropdown";
 import TextInput from "../components/TextInput";
 import ButtonItem from "../components/ButtonItem";
+import UserHeader from "../components/UserHeader";
 
 export default function Dashboard() {
-  const [message, setMessage] = useState("");
   const [employee, setEmployee] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorRemovalMessage, setErrorRemovalMessage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
-  const date = new Date();
-  let hour = date.getHours();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    checkTime();
-  }, []);
 
   async function resetVotes() {
     // Show confirmation alert
@@ -66,7 +56,7 @@ export default function Dashboard() {
 
   async function removeEmployee() {
     if (!employee) {
-      setErrorMessage("Please select an employee to remove.");
+      setErrorRemovalMessage("Please select an employee to remove.");
       return;
     }
 
@@ -132,34 +122,12 @@ export default function Dashboard() {
     }
   }
 
-  function checkTime() {
-    if (hour >= 0 && hour < 12) {
-      setMessage("Morning");
-    } else if (hour >= 12 && hour < 17) {
-      setMessage("Afternoon");
-    } else {
-      setMessage("Evening");
-    }
-  }
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    navigate("/login");
-  };
-
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between items-center mb-5">
-        <h1 className="text-[#0046be] font-bold mt-5 text-2xl">
-          Good {message}!
-        </h1>
-
-        {/* Logout */}
-        <ButtonItem onClick={handleLogout} buttonText="Sign Out" />
-      </div>
+      <UserHeader />
       {/* Add Employee */}
       <div>
-        <h2 className="text-m text-black font-bold mt-5  mb-3 ">
+        <h2 className="text-m text-black font-bold mt-7  mb-3 ">
           Add Employee
         </h2>
         <TextInput
@@ -189,6 +157,9 @@ export default function Dashboard() {
         <Dropdown placeHolder="Start typing" setSelected={setEmployee} />
 
         <ButtonItem onClick={removeEmployee} buttonText="Remove Employee" />
+        {errorRemovalMessage && (
+          <p className="text-red-500 mt-2 text-sm">{errorRemovalMessage}</p>
+        )}
       </div>
 
       {/* Reset Votes Button */}
