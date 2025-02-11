@@ -56,7 +56,7 @@ export default function Home() {
 
       // Refresh after 5 seconds
       setTimeout(() => {
-        window.location.reload();
+        setVotingLive(true);
       }, 5000);
     } catch (error) {
       console.error("Error updating vote count:", error);

@@ -97,7 +97,7 @@ export default function Results() {
       </div>
 
       <div className="mt-20 w-full">
-        <h2 className="text-2xl text-center text-black font-bold mt-10  mb-3 ">
+        <h2 className="text-2xl text-center text-black font-bold mt-10  mb-5 ">
           Voting Logs
         </h2>
         <hr />
