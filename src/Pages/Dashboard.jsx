@@ -12,13 +12,18 @@ import Dropdown from "../components/Dropdown";
 import TextInput from "../components/TextInput";
 import ButtonItem from "../components/ButtonItem";
 import UserHeader from "../components/UserHeader";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [employee, setEmployee] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [errorRemovalMessage, setErrorRemovalMessage] = useState("");
+  const [successRemovalMessage, setSuccessRemovalMessage] = useState("");
+  const [successAddMessage, setSuccessAddMessage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const navigate = useNavigate();
 
   async function resetVotes() {
     // Show confirmation alert
@@ -77,11 +82,11 @@ export default function Dashboard() {
       await deleteDoc(employeeRef);
 
       // Show success message
-      alert("Employee removed successfully.");
+      setSuccessRemovalMessage(`${employee.fullName} removed successfully`);
 
       // Refresh after 2 seconds
       setTimeout(() => {
-        window.location.reload();
+        navigate(0);
       }, 2000);
     } catch (error) {
       console.error("Error removing employee:", error);
@@ -101,6 +106,15 @@ export default function Dashboard() {
       return;
     }
 
+    // Show confirmation alert
+    const confirmAdd = window.confirm(
+      `Are you sure you want to add ${firstName} ${lastName}?`
+    );
+
+    if (!confirmAdd) {
+      return; // Exit if user cancels
+    }
+
     try {
       const newEmployeeRef = await addDoc(employeesData, {
         fullName: `${firstName} ${lastName}`,
@@ -111,11 +125,13 @@ export default function Dashboard() {
       await updateDoc(newEmployeeRef, { id: newEmployeeRef.id });
 
       // Show success
-      alert(`Employee: ${firstName} ${lastName} added Successfully`);
+      setSuccessAddMessage(
+        `Employee: ${firstName} ${lastName} added Successfully`
+      );
 
       // Refresh after 2 seconds
       setTimeout(() => {
-        window.location.reload();
+        navigate(0);
       }, 2000);
     } catch (error) {
       setErrorMessage("Error adding employee: " + error.message);
@@ -149,6 +165,10 @@ export default function Dashboard() {
         {errorMessage && (
           <p className="text-red-500 mt-2 text-sm">{errorMessage}</p>
         )}
+
+        {successAddMessage && (
+          <p className="text-green-500 mt-2 text-sm">{successAddMessage}</p>
+        )}
       </div>
 
       {/* Remove */}
@@ -157,8 +177,13 @@ export default function Dashboard() {
         <Dropdown placeHolder="Start typing" setSelected={setEmployee} />
 
         <ButtonItem onClick={removeEmployee} buttonText="Remove Employee" />
+
         {errorRemovalMessage && (
           <p className="text-red-500 mt-2 text-sm">{errorRemovalMessage}</p>
+        )}
+
+        {successRemovalMessage && (
+          <p className="text-green-500 mt-2 text-sm">{successRemovalMessage}</p>
         )}
       </div>
 
