@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { signOut } from "firebase/auth";
 import { Link, useLocation } from "react-router-dom";
 import { auth } from "../config/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
