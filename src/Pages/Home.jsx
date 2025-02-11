@@ -48,6 +48,10 @@ export default function Home() {
       // Hide Voting Screen
       setVotingLive(false);
 
+      // clear fields
+      setReason("");
+      setCurrentDate(null);
+
       // Log data to backend
       await logData();
 
