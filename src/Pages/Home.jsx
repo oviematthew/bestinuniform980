@@ -87,7 +87,7 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen">
+    <div className="h-[100%]">
       {/* Hero Section */}
       <div className="flex justify-between lg:ml-10">
         {/* Voting Screen */}
