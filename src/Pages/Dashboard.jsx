@@ -94,6 +94,11 @@ export default function Dashboard() {
     }
   }
 
+  function capitalizeName(name) {
+    const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+    return capitalizedName;
+  }
+
   // Add Employee
   async function handleAddEmployee() {
     if (!firstName.trim()) {
@@ -108,7 +113,9 @@ export default function Dashboard() {
 
     // Show confirmation alert
     const confirmAdd = window.confirm(
-      `Are you sure you want to add ${firstName} ${lastName}?`
+      `Are you sure you want to add ${capitalizeName(
+        firstName
+      )} ${capitalizeName(lastName)}?`
     );
 
     if (!confirmAdd) {
@@ -117,7 +124,7 @@ export default function Dashboard() {
 
     try {
       const newEmployeeRef = await addDoc(employeesData, {
-        fullName: `${firstName} ${lastName}`,
+        fullName: `${capitalizeName(firstName)} ${capitalizeName(lastName)}`,
         voteCount: 0, // No need to manually set an ID before it's created
       });
 
@@ -126,7 +133,9 @@ export default function Dashboard() {
 
       // Show success
       setSuccessAddMessage(
-        `Employee: ${firstName} ${lastName} added Successfully`
+        `Employee: ${capitalizeName(firstName)} ${capitalizeName(
+          lastName
+        )} added Successfully`
       );
 
       // Refresh after 2 seconds
