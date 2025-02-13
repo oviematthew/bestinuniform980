@@ -65,6 +65,7 @@ export default function Settings() {
                 type="password"
                 required
                 placeholder="New password"
+                autoComplete="new-password"
                 className="block w-full rounded-md my-2 p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -84,6 +85,7 @@ export default function Settings() {
                 type="password"
                 required
                 placeholder="Confirm password"
+                autoComplete="new-password"
                 className="block w-full rounded-md my-2 p-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}

@@ -43,8 +43,6 @@ export default function Home() {
         voteCount: increment(1),
       });
 
-      console.log(`Vote recorded for ${nominated.fullName}`);
-
       // Hide Voting Screen
       setVotingLive(false);
 

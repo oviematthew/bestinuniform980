@@ -21,6 +21,7 @@ export default function Dashboard() {
   const [successRemovalMessage, setSuccessRemovalMessage] = useState("");
   const [successAddMessage, setSuccessAddMessage] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [successResetVotes, setSuccessResetVotes] = useState("");
   const [lastName, setLastName] = useState("");
 
   const navigate = useNavigate();
@@ -51,8 +52,7 @@ export default function Dashboard() {
       });
 
       // Message on screen
-      // Show success
-      alert(`Votes successfully reset`);
+      setSuccessResetVotes("Votes successfully reset");
     } catch (error) {
       // Message on screen;
       alert("Failed to reset votes. Please try again.");
@@ -94,6 +94,7 @@ export default function Dashboard() {
     }
   }
 
+  // capitalize function
   function capitalizeName(name) {
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
     return capitalizedName;
