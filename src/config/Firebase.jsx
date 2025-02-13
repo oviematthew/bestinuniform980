@@ -15,12 +15,12 @@ import {
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
-  authDomain: "bestinuniform-25b8f.firebaseapp.com",
-  projectId: "bestinuniform-25b8f",
-  storageBucket: "bestinuniform-25b8f.firebasestorage.app",
-  messagingSenderId: "691883010958",
-  appId: "1:691883010958:web:a2ecdd51032a07753dd2df",
-  measurementId: "G-9VRPDSLKZ1",
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_storageBucket,
+  appId: import.meta.env.VITE_storageBucket,
+  measurementId: import.meta.env.VITE_storageBucket,
 };
 
 // Initialize Firebase
