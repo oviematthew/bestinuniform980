@@ -9,7 +9,6 @@ export default function DatePickerItem({ currentDate, setCurrentDate }) {
       <DatePicker
         selected={currentDate}
         minDate={new Date()}
-        maxDate={new Date()}
         onChange={(date) => setCurrentDate(date)}
         placeholderText="Select a date"
         className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
