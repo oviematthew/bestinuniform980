@@ -132,6 +132,9 @@ export default function Dashboard() {
       // Update Firestore to store the generated ID
       await updateDoc(newEmployeeRef, { id: newEmployeeRef.id });
 
+      // clear Error
+      setErrorMessage("");
+
       // Show success
       setSuccessAddMessage(
         `Employee: ${capitalizeName(firstName)} ${capitalizeName(
