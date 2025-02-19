@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { auth } from "../config/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -6,7 +6,25 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation(); // Get current URL path
-  const [user, loading] = useAuthState(auth); // Get sign in state
+  const [user] = useAuthState(auth); // Get sign-in state
+
+  // Function to get title based on the route
+  const getTitle = (pathname) => {
+    const titles = {
+      "/": "Best In Uniform - Home",
+      "/login": "Best In Uniform - Login",
+      "/admin/dashboard": "Best In Uniform - Dashboard",
+      "/admin/results": "Best In Uniform - Results",
+      "/admin/settings": "Best In Uniform - Settings",
+    };
+
+    return titles[pathname] || "Best In Uniform";
+  };
+
+  // Update document title when route changes
+  useEffect(() => {
+    document.title = getTitle(location.pathname);
+  }, [location.pathname]);
 
   return (
     <nav className="bg-[#0046be] max-w-full">
@@ -99,7 +117,7 @@ export default function Navbar() {
                   </Link>
                 )}
 
-                {/* Results*/}
+                {/* Results */}
                 {user && (
                   <Link
                     to="/admin/results"
@@ -113,7 +131,7 @@ export default function Navbar() {
                   </Link>
                 )}
 
-                {/* Settings*/}
+                {/* Settings */}
                 {user && (
                   <Link
                     to="/admin/settings"
@@ -129,8 +147,6 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-
-          {/* Mobile Menu Below */}
 
           {/* Mobile Logo */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -184,7 +200,7 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Results*/}
+          {/* Results */}
           {user && (
             <Link
               to="/admin/results"
@@ -199,7 +215,7 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Settings*/}
+          {/* Settings */}
           {user && (
             <Link
               to="/admin/settings"
