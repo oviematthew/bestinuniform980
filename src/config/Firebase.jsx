@@ -1,4 +1,4 @@
-// Import the functions you need from the SDKs you need
+// Import Firebase SDKs
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -13,6 +13,18 @@ import {
   collection,
 } from "firebase/firestore";
 
+// Log environment variables (debugging)
+console.log("Firebase Config:", {
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
+  measurementId: import.meta.env.VITE_measurementId,
+});
+
+// Firebase Config
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
   authDomain: import.meta.env.VITE_authDomain,
@@ -26,10 +38,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize database
-const database = getFirestore();
-const employeesData = collection(database, "Employees");
-const logsCollection = collection(database, "Logs");
+// Initialize Firestore (FIXED)
+const database = getFirestore(app);
+
+// Initialize Firebase Auth
 const auth = getAuth(app);
 
 // Set Persistence
@@ -37,24 +49,19 @@ setPersistence(auth, browserLocalPersistence).catch((error) =>
   console.error("Persistence error:", error)
 );
 
-export { auth, database, employeesData, logsCollection };
+// Firestore Collections
+const employeesData = collection(database, "Employees");
+const logsCollection = collection(database, "Logs");
 
 // Load Employees
 export function loadEmployees() {
-  const data = [];
-
   return new Promise((resolve, reject) => {
     getDocs(employeesData)
       .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const employees = {
-            ...doc.data(),
-            id: doc.id,
-          };
-
-          data.push(employees);
-        });
-
+        const data = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
         resolve(data);
       })
       .catch((error) => {
@@ -66,20 +73,13 @@ export function loadEmployees() {
 
 // Load Logs
 export function loadLogs() {
-  const data = [];
-
   return new Promise((resolve, reject) => {
     getDocs(logsCollection)
       .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const logs = {
-            ...doc.data(),
-            id: doc.id,
-          };
-
-          data.push(logs);
-        });
-
+        const data = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
         resolve(data);
       })
       .catch((error) => {
@@ -88,3 +88,6 @@ export function loadLogs() {
       });
   });
 }
+
+// Export variables
+export { auth, database, employeesData, logsCollection };
