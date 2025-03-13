@@ -13,7 +13,7 @@ export default function Home() {
   const [nominator, setNominator] = useState(null);
   const [nominated, setNominated] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [currentDate, setCurrentDate] = useState(null);
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [reason, setReason] = useState("");
   const [votingLive, setVotingLive] = useState(true);
 
