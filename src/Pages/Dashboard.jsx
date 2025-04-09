@@ -203,7 +203,9 @@ export default function Dashboard() {
       {/* Reset Votes Button */}
 
       <div>
-        <h2 className="text-m text-black font-bold mt-3 ">Reset Votes</h2>
+        <h2 className="text-m text-red-600 font-bold mt-3 ">
+          Reset Votes (Clear Graph Only)
+        </h2>
         <ButtonItem onClick={resetVotes} buttonText="Reset Votes" />
       </div>
     </div>
